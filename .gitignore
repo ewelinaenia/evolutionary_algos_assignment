@@ -1,0 +1,12 @@
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# IOHanalyzer data outputs
+data/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
