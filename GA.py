@@ -11,9 +11,12 @@ budget = 5000
 # To make your results reproducible (not required by the assignment), you could set the random seed by
 # `np.random.seed(some integer, e.g., 42)`
 
-def studentnumber1_studentnumber2_GA(problem: ioh.problem.PBO, population_size: int = 100, mutation_rate: float = 0.01, crossover_rate: float = 0.7) -> None:
+def studentnumber1_studentnumber2_GA(problem: ioh.problem.PBO, population_size: int = 100, mutation_rate: float = 0.01, crossover_rate: float = 0.7, seed: int = None) -> None:
     # initial_pop = ... make sure you randomly create the first population
     # create an initial population by randomly initializing population size number of binary strings the length of problem dimension
+    if seed is not None:
+        np.random.seed(seed)
+    
     initial_pop = np.random.randint(0, 2, size=(population_size, problem.meta_data.n_variables))
 
     fitnesses = np.zeros(population_size)   # initialize an array storing fitness evaluations
@@ -110,18 +113,19 @@ def create_problem(dimension: int, fid: int) -> Tuple[ioh.problem.PBO, ioh.logge
 
 
 if __name__ == "__main__":
+    base_seed = 42
     # this how you run your algorithm with 20 repetitions/independent run
     # create the LABS problem and the data logger
     F18, _logger = create_problem(dimension=50, fid=18)
     for run in range(20): 
-        studentnumber1_studentnumber2_GA(F18)
+        studentnumber1_studentnumber2_GA(F18, seed = base_seed + run)
         F18.reset() # it is necessary to reset the problem after each independent run
     _logger.close() # after all runs, it is necessary to close the logger to make sure all data are written to the folder
 
     # create the N-Queens problem and the data logger
     F23, _logger = create_problem(dimension=49, fid=23)
     for run in range(20): 
-        studentnumber1_studentnumber2_GA(F23)
+        studentnumber1_studentnumber2_GA(F23, seed = base_seed + 100 + run)
         F23.reset()
     _logger.close()
 
